@@ -13,7 +13,7 @@
 지하철을 떠올리면 이해하기 쉽다. 지하철은 내가 가는 방향에 승객이 별로없고 다른쪽에 기다리는 승객이 많다고 해서 그쪽으로 방향을 틀거나 하지 않는다.
 그저 자기에게 정해진 구간만 순회할뿐이다.
 
-![](http://bit.ly/2G8d0Ar)
+![](https://lh3.googleusercontent.com/8z6qS6ekNBfD7lTU1Fs1cYVhdo6y4JTAJDOaR_qhMR5nxr9jZTHRN8xHU5iW3aerMTJNtwYeT-RuTi2ok03IMk40SIaqso-sK3VJHojtOWiLukJIY2aflvX1N-RjKhBODnq7oLjPlwHSNWL2hfKfBkNqh4OkQ6P-SxWoaUa4l_Ffg6G9q0h01YRb5i5oGU9KLVvMtF-SBUjOtUBBh5Xop5yOYYDs6vMfDBnuqVAu8asv5dL6_bUvmHnyhTRZrk4y5JIvAZcu2tUa6Fo3hZKO9BXgI6roozFH_hG_coDbJ7avHof-NAxnM3YqxtGmj7XkEH7CKq5zg45tIkJxkjHLx_ZXt8pmXC_7x1KtbNNJ3ZXqpiapPzUvcIMCo58mxQPln4YQEIipJc_WyToNZkZY5szXOfX45ODEwNYIYhB4vUNagE3psIVaRAs877epYWNyNnp8HKfv4pNha-mVqQ6l5r9dr2uCFMdfnItqkSS0YBoyHQIP5ERBwIofrpCk8rlyKjsVN2ewZJgxm3NCfANRA-D3JC91zBYHfnnskHapKZGLKe2TFohQ6aAuRYIsdErY0Dy97Q-AbCVwc4tSJ5FnkVQ0eyu0Av6xnpkzRvH1oOrxzWKzYu3ajUYWEu90-yWrbxzwOPnVZUjSKSVmI2MCApJT=w489-h504-no)
 
 이를 그림으로 표현했다.  
 구역을 나눈뒤에 각 엘리베이터는 이 구역만 왔다갔다 하면서 승객을 실어 나른다.  
@@ -21,8 +21,8 @@
 승객이 빨간 구역에서 타서 파란구역에서 내려야한다면  빨강이는 걔를 태운뒤 자신이 담당한 구역의 맨 밑층 (Boundary 층)에 내려두고 다시 자기 갈길을 간다.  
 
 이후 파랑이가 자신이 담당한 맨 꼭대기층 (Boundary 층) 에서 이걸 낚아 챈뒤 목적지에 데려다준다.  
-간략하게 나타내기위해 그림상에는 엘리베이터가 두개밖에 안그렸지만 문제 조건에선 최대 4개까지 사용 가능하다 했으므로 빌딩 전체는 총 4구간으로 나뉜다. 4개의 쓰레드에 각각 엘리베이터를 하나씩 할당해서 가동시키면 되겠다.  
-
+간략하게 나타내기위해 그림상에는 엘리베이터가 두개밖에 안그렸지만 문제 조건에선 최대 4개까지 사용 가능하다 했으므로 빌딩 전체는 총 4구간으로 나뉜다. 
+4개의 쓰레드에 각각 엘리베이터를 하나씩 할당해서 가동시키면 되겠다.  
 여기까지가 테스트를 마치고 집에서 오는 버스에서 생각한 내용이다. 당시엔 멘탈이 깨졌었기 때문에 막연하게 '나중에 다시 풀어볼때 이렇게 풀면 되겠지' 라고 생각하면서 대충 묻어뒀다.
 
 
