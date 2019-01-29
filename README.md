@@ -20,9 +20,10 @@
 승객이 빨간 구역에서 탔는데 내려야 하는 층도 빨간구역에 속한다면 얘는 빨강이 만으로 커버 가능하다.  
 승객이 빨간 구역에서 타서 파란구역에서 내려야한다면  빨강이는 걔를 태운뒤 자신이 담당한 구역의 맨 밑층 (Boundary 층)에 내려두고 다시 자기 갈길을 간다.  
 
-이후 파랑이가 자신이 담당한 맨 꼭대기층 (Boundary 층) 에서 이걸 낚아 챈뒤 목적지에 데려다준다.  
+이후 파랑이가 자신이 담당한 맨 꼭대기층 (Boundary 층) 에 도착하면 이걸 태운뒤 목적지에 데려다준다.  
 간략하게 나타내기위해 그림상에는 엘리베이터가 두개밖에 안그렸지만 문제 조건에선 최대 4개까지 사용 가능하다 했으므로 빌딩 전체는 총 4구간으로 나뉜다. 
 4개의 쓰레드에 각각 엘리베이터를 하나씩 할당해서 가동시키면 되겠다.  
+
 여기까지가 테스트를 마치고 집에서 오는 버스에서 생각한 내용이다. 당시엔 멘탈이 깨졌었기 때문에 막연하게 '나중에 다시 풀어볼때 이렇게 풀면 되겠지' 라고 생각하면서 대충 묻어뒀다.
 
 
@@ -59,7 +60,7 @@ commands = [
 ] # 이런식으로 보내야함
 ```
 한번의 action 요청에 들어갈  command 들을 어떻게 고를지 생각한 내 아이디어는 아래와 같다.
-
+[](https://lh3.googleusercontent.com/ejXC3BYF20Zl2kRUFT3T2xddcNPFKGjQngQoHtm7TuW8o-dlaZcFtbxzGAi26t5UFPIVZA7H8KpRPoeYjB7aPC0c_b0CJq_e3_r2THvg7mrVdk1wjdOZr9f16nUn-2629_LbWfE2YOY4RKmYw7uI8PG-AKEkb3_YSkNG792IuOVb6VEhXdcUHHYWiIZt826GieFMQkU7pvWjQX2zrU1NsLPYt8gn8TraacfH1Rpe-DY6RLswvED-uR6-gi1UzPoFPL70jmKNH0qv58CpzlqAqj8tgjg27Q48u7Pb6Je3wh9EabPtbiY2Rt5-fHOQPx9RnSsEm6-38IT6ncTY-WFTRE6aVZzDNbMZTUCc4GciFKurEM9Vp1ChBXikX8WkpMvBHvjkCpz9omBLO2eA5hIo80FMpo-MYZVdZw9sFgE729qT9q-_rPSg01kmRGQw88yv_CoE1oCZJNwCkR29PnKicCq3kQBUhVU_LmvzxGFwDY00zEMQ1WA524I6Q7vt7psCZjHZrv7uPa4_9GJvuJc6WZvVEuT1kW7aAs0jq1HqzyrSx8LfmTGEIHI71fc3kBe-zUJhDu7zudxMFsKydsoxl5dJY93erHZrqtHUubsUjJ0fzu86Oi5iwRvqvqjFL0auQKpTuxMGLc910Wv0d0iRhtTw=w719-h574-no)
 
 각 엘리베이터마다 본인의 큐에 command를 넣어주고,  action 요청을 보낼때마다 이 큐에서 하니씩 빼다가 commands 를 만들어서 요청한다.  멀티쓰레딩을 공부할때 나오는 '생산자 공급자' 패턴과 모양이 같다.
 
