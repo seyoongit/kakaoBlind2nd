@@ -1,9 +1,9 @@
 # 카카오 블라인드 테스트 2차 엘리베이터 문제 풀이
-실전에서 망하고 지금와서 이걸 푸는게 무슨 의미가 있겠냐만은 그래도 다시 한번 엘리베이터 문제에 도전해봤다.<br/><br/>  
-     
-    
-     
-    
+실전에서 망하고 지금와서 이걸 푸는게 무슨 의미가 있겠냐만은 그래도 다시 한번 엘리베이터 문제에 도전해봤다. 
+<br/>
+<br/>
+<br/>
+<br/>
 ### 첫번째 아이디어
 
 기본적인 아이디어는 다음과 같다 
@@ -13,7 +13,8 @@
 
 ![ssad](https://lh3.googleusercontent.com/8z6qS6ekNBfD7lTU1Fs1cYVhdo6y4JTAJDOaR_qhMR5nxr9jZTHRN8xHU5iW3aerMTJNtwYeT-RuTi2ok03IMk40SIaqso-sK3VJHojtOWiLukJIY2aflvX1N-RjKhBODnq7oLjPlwHSNWL2hfKfBkNqh4OkQ6P-SxWoaUa4l_Ffg6G9q0h01YRb5i5oGU9KLVvMtF-SBUjOtUBBh5Xop5yOYYDs6vMfDBnuqVAu8asv5dL6_bUvmHnyhTRZrk4y5JIvAZcu2tUa6Fo3hZKO9BXgI6roozFH_hG_coDbJ7avHof-NAxnM3YqxtGmj7XkEH7CKq5zg45tIkJxkjHLx_ZXt8pmXC_7x1KtbNNJ3ZXqpiapPzUvcIMCo58mxQPln4YQEIipJc_WyToNZkZY5szXOfX45ODEwNYIYhB4vUNagE3psIVaRAs877epYWNyNnp8HKfv4pNha-mVqQ6l5r9dr2uCFMdfnItqkSS0YBoyHQIP5ERBwIofrpCk8rlyKjsVN2ewZJgxm3NCfANRA-D3JC91zBYHfnnskHapKZGLKe2TFohQ6aAuRYIsdErY0Dy97Q-AbCVwc4tSJ5FnkVQ0eyu0Av6xnpkzRvH1oOrxzWKzYu3ajUYWEu90-yWrbxzwOPnVZUjSKSVmI2MCApJT=w489-h504-no)
 
-이를 그림으로 표현했다.  구역을 나눈뒤에 각 엘리베이터는 이 구역만 왔다갔다 하면서 승객을 실어 나른다. 
+이를 그림으로 표현했다.  
+구역을 나눈뒤에 각 엘리베이터는 이 구역만 왔다갔다 하면서 승객을 실어 나른다. 
 
 승객이 빨간 구역에서 탔는데 내려야 하는 층도 빨간구역에 속한다면 얘는 빨강이 만으로 커버 가능하다. 
 
