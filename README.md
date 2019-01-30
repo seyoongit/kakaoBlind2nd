@@ -5,7 +5,6 @@ elevator.exe 는 [카카오 엘리베이터 문제 깃허브](https://github.com
 <br/>
 <br/>
 <br/>
-<br/>
 ### 첫번째 아이디어
 
 기본적인 아이디어는 다음과 같다 
@@ -36,9 +35,6 @@ elevator.exe 는 [카카오 엘리베이터 문제 깃허브](https://github.com
 <br/>
 <br/>
 <br/>
-<br/>
-
-
 ### 스레드는 필요 없다
 
 이를 바탕으로 첫번째 문제인 '어피치 맨션' 해결한뒤 두번째 문제 '제이지 빌딩' 을 풀때 문제가 드러났다. 
@@ -70,8 +66,6 @@ elevator.exe 는 [카카오 엘리베이터 문제 깃허브](https://github.com
 <br/>
 <br/>
 <br/>
-<br/>
-   
 ### 두번째 아이디어
 
 결국 한개의 메인쓰레드에서 해결을 해야한다. 그리고 요청을 보낼때는 commands에 4개의 command를 동시에 넣어서 보내야한다.  
@@ -99,24 +93,21 @@ solve.py의 169~172줄은 이를 나타낸다.
             q += el.getNextActions()
         command, ids = q.pop(0)
         commands.append(makeCommand(el.elevator_id, command, ids))
-```
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
+```  
+
 ### extra feature  
-<br>
+
 1. 처음부터 4대의 엘리베이터 1층부터 우르르 몰려다니면 안되기 때문에 미리 알맞게 각 엘리베이터의 큐에 STOP 커맨드를 넣어둔다.  
-<br/>
 solve.py의 161번째 줄은 이를 나타낸다.  
+
 ```python
 	actionQ = [[], [["UP", None] for a in range(6)], [["UP", None] for a in range(12)], [["UP", None] for a in range(18)]]
 ```  
-<br/>
-2. API문서에 '1초에 40번 이상의 네트워크 요청은 응답을 안할수도 있다' 라고 나와있길래 40번째 요청마다 1초 쉬어주는 장치를 했다.
-<br/>
-solve.py 의 36~37 라인과 140~141 라인은 이를 나타낸다.  
+
+2. API문서에 '1초에 40번 이상의 네트워크 요청은 응답을 안할수도 있다' 라고 나와있길래 40번째 요청마다 1초 쉬어주는 장치를 했다.  
+
+solve.py 의 36-37 라인과 140-141 라인은 이를 나타낸다.  
+
 ```python
 	# 36 ~ 37 line
 	def action(commands): # action API 요청을 보내는 함수의 내부
@@ -127,8 +118,6 @@ solve.py 의 36~37 라인과 140~141 라인은 이를 나타낸다.
 	    	if requestCount > 0 and requestCount % 40 == 0:
         		time.sleep(1)
 ```  
-<br>
-<br>
 <br>
 <br>
 <br>
