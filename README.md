@@ -109,6 +109,7 @@ commands.append(makeCommand(el.elevator_id, command, ids))
 서로 다른 엘리베이터에서 같은 승객을 ENTER 하는 요청을 보내면 당연히 에러가 뜬다.  <br>
 이를 방지하기위해 전역변수 picked 를 유지한다. picked는 엘리베이터에 태운 승객의 id를 담는 리스트이다.  <br>  
 엘리베이터는 ENTER 커맨드를 생산함과 동시에 해당 call의 id를 picked에 기록한다  <br>
+이후 다른 엘리베이터는 승객을 태울때 해당 승객의 id가 picked에 있다면 태우지 않는다  <br>
 <br>
 solve.py 의 98번 줄은 이를 나타낸다.
 ```python
