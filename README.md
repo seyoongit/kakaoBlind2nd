@@ -47,8 +47,8 @@ elevator.exe 는 [카카오 엘리베이터 문제 깃허브](https://github.com
 엘리베이터가 두개 이상이 되면 이게 안된다  
 
 ```python
-	[{ "elevator_id": 0, "command": "OPEN"}] # 이런식으로 commands 에 한개의 command만 포함해서 보내면 에러가 뜬다
-	[{ "elevator_id": 0, "command": "UP"}, { "elevator_id": 1, "command": "ENTER"}, "ids": [1,4,12]] # start API에서 엘리베이터를 2개 이상 사용한다 선언했으면 command 도 그 수에 맞춰서 요청해야한다. 
+[{ "elevator_id": 0, "command": "OPEN"}] # 이런식으로 commands 에 한개의 command만 포함해서 보내면 에러가 뜬다
+[{ "elevator_id": 0, "command": "UP"}, { "elevator_id": 1, "command": "ENTER"}, "ids": [1,4,12]] # start API에서 엘리베이터를 2개 이상 사용한다 선언했으면 command 도 그 수에 맞춰서 요청해야한다. 
 ```
 <br/>
 엘리베이터를 2개 사용한다고 요청하고 토큰을 받아왔는데 위 코드의 첫줄과 같이 요청을 보내면 에러가 뜬다. 처음엔 왜 계속 에러가 뜨나 헤멨는데 API 문서에
@@ -89,10 +89,10 @@ commands = [
 <br/>
 solve.py의 169~172줄은 이를 나타낸다.
 ```python
-        if len(q) == 0:
-            q += el.getNextActions()
-        command, ids = q.pop(0)
-        commands.append(makeCommand(el.elevator_id, command, ids))
+if len(q) == 0:
+    q += el.getNextActions()
+command, ids = q.pop(0)
+commands.append(makeCommand(el.elevator_id, command, ids))
 ```  
 <br>
 <br>  
@@ -107,10 +107,12 @@ solve.py의 169~172줄은 이를 나타낸다.
 서로 다른 엘리베이터에서 같은 승객을 ENTER 하는 요청을 보내면 당연히 에러가 뜬다.  <br/>
 이를 방지하기위해 전역변수 picked 를 유지한다. picked는 엘리베이터에 태운 승객의 id를 담는 리스트이다.  <br/>  
 엘리베이터는 ENTER 커맨드를 생산함과 동시에 해당 id 들을 picked에 기록한다  <br/>
-solve.py 의
-
-근데 막상 실행을 시켜보면 picked의 길이가 200개, 즉 모든 승객을 태웠는데도 무한 요청에 빠진 모습이다.  <br/>
-
+<br>
+solve.py 의 98번 줄은 이를 나타낸다.
+```python
+picked += getIn_ids[:left]
+commands.append(makeCommand(el.elevator_id, command, ids))
+``` 
 
 ##### 엘리베이터 간격띄우기  
 
@@ -118,10 +120,10 @@ solve.py 의
 solve.py의 161번째 줄은 이를 나타낸다.  
 
 ```python
-	actionQ = [[], [["UP", None] for a in range(6)], [["UP", None] for a in range(12)], [["UP", None] for a in range(18)]]
+actionQ = [[], [["UP", None] for a in range(6)], [["UP", None] for a in range(12)], [["UP", None] for a in range(18)]]
 ```  
 
-물론 먼저 출발한 엘리베이터가 승객을 마주칠경우 최소 4턴이상 (STOP, OPEN, ENTER or EXIT, CLOSE) 그자리에 멈춰있기 때문에 시간이 흐름에 따라 다시 우르르 몰려다니는 모양새가 될지 어떨지는 확실하지 않으나 어쨌든 안하는것보단 나은거 같다.
+물론 먼저 출발한 엘리베이터가 승객을 마주칠경우 최소 4턴이상 (STOP, OPEN, ENTER or EXIT, CLOSE) 그자리에 멈춰있기 때문에 시간이 흐름에 따라 다시 우르르 몰려다니는 모양새가 될지 어떨지는 확실하지 않으나 어쨌든 안하는것보단 나을듯 하다.
 <br/> 
 
 ##### 요청은 1초에 40번만  
@@ -131,14 +133,15 @@ API문서에 '1초에 40번 이상의 네트워크 요청은 응답을 안할수
 solve.py 의 36-37 라인과 140-141 라인은 이를 나타낸다.  
 
 ```python
-	# 36 ~ 37 line
-	def action(commands): # action API 요청을 보내는 함수의 내부
-		# ...생략
-		global requestCount # requestCount 는 코드초반에 전역으로 선언해둠
-    		requestCount += 2
-		# 140 ~ 141 line
-	    	if requestCount > 0 and requestCount % 40 == 0:
-        		time.sleep(1)
+# 36 ~ 37 line
+def action(commands): # action API 요청을 보내는 함수의 내부
+	# ...생략
+	global requestCount # requestCount 는 코드초반에 전역으로 선언해둠
+	requestCount += 2
+	
+# 140 ~ 141 line
+if requestCount > 0 and requestCount % 40 == 0:
+	time.sleep(1)
 ```  
 <br>
 <br>
@@ -146,9 +149,45 @@ solve.py 의 36-37 라인과 140-141 라인은 이를 나타낸다.
 
 ### 실행결과
 
-##### 어피치 맨션
+##### 어피치 맨션  
+
+![](https://lh3.googleusercontent.com/weVgdaeRq_iLHGPXYIvUnzeQPEE2SI-pSBZ5379zRoTGDxF8adoEB-JbdGORQf_ED2ecFB7yn3jRXgNGJSTo4XwNeSnyntVeNdFXtgY0F2Y2xG9nxP2bJ7jXTHnkeuiMHnnvzUvfGodRwxyByMsGglYHlcvdCwyY9Uo3XR-vlUnkIFFtRGL2N5ztWqE7MoUKGr8OIu7mmxPVt_dqlK2svWlksdB25HSKOt8kR2aJ5KeiUrtlWOYVOV-7NMs2eo9f59828v1xULNJVRXfD0Oonl-ftG9E40u8lxPWqTnHpUJ1HrTqTC42Ji8TgwOjImolG6FH2iGjvP4EMpzcyXofv6ujSrnu7nvGBzL6kJv5hJOK2cMF66gDgsXJgpVU-ZJ4_LHRLTGUYHfcjHq6GDWv8mA5t3Sqgy0ZFifphzr-UTF9LDTVz8zJOK-BXQLagBFt-bQ2kxHdBtmFbzD5frvzazxkJ4MY4R3z-VF4tJWJ2grbgRo2KxmIgSgSuS5WW0yNPAQQ_gW2SJ5c2LdHeVUIP-g8SX2Ks6lxp2_T4u1DrBSpxrDWMRLGj0Jm8rpdkkdphuQ7jp1sJbL3crf5Bv42NhQOKtzxnhM8Hmr2HBsB89pnvNTfuEXu3AOSSg5vg10MCNEbDN4IxSOkI3nWtdVmIULd=w834-h453-no)  
 
 잘 작동한다  
+<br/>
+<br/>
 
-##### 제이지 빌딩
+##### 제이지 빌딩  
+
+![](https://lh3.googleusercontent.com/J9L95vhkSA1IEvaJoES-RLseDoOciRdpI0LqBu4SQI3Q7UKSTSBaDNmy0_LGcMpoHtJDFtR3WnB0n6zLsDCyNiov-x6ReRQlQIppCl1_boM0_4cQ4uIm9H4Yq3VQoYoywsdNG4XTfBEfaeHx0uzB_6NpmDM8WymGY50Q6jwgzSb3C-b1r_tc1uAfTP0NucXV1ogoMc1ZI8KnME9sazmvuhWgK_82KhYiIm1elscUYQZSrfT_-Uax4rSlaEgV4xINUEh9B_htaly4jlwq9-2XqXqDUGFSEXpGqCVjPJyGKd7PiD6c1OTMtcp8h3EdLd4OsMjggf_M1m1AGsAv-VSuYFHVHjCKCtLtsUK2Gk-O0eqv5kcMRNSCTteKiDubJLulvKzpEaoFJuJRR2fKldhNVpQ-15gFVzYlA_yhYsH5uo9sya-KJyrvWAo4X7QuilWb40GEqjDu26Ej1lp9tT2l1L1tVwPNsIh1hlk554Gd9vGXQqNlRKS7rS-VX_N1I9dQK3lVGrCwRJy5qcrBC5ww5GsPNCpn0suqxJLoLE7CUEi5FLsIAjOiDo6_wi1CpnhrgGLjZj2Cqwj416D69yk6Ar46_cCbur81n8eHdD5Dn-HjtKIaX-A6HiaPYcbiSrMTmuDlXZ1Z51PAnPtFnx4GlKgf=w1189-h453-no)  
+
+제이지 빌딩에서 문제가 발생했다.  
+무한루프에 빠졌는지 안끝나길래 picked가 200이 되면 (제이지 빌딩 문제의 call 수) 각 엘리베이터의 passengers 와 현재 남아있는 calls를 로깅해봤다  
+이유는 알수없지만 서너개의 call이 처리가 안된채로 남아있는데, 이들은 이미 picked에 기록된 상태라 엘리베이터가 얘내들을 안태우고 건너뛰는듯 하다.  
+<br/>
+이를 해결하기 위해 몽키패치를 추가했다.
+```python
+# action 함수 말미에 추가한 몽키패치
+isPassengersEmpty = all(len(el["passengers"])==0 for el in state["elevators"])
+if isPassengersEmpty and (problem=="JayZ Building" and len(picked) == 200) or (problem=="Lion Tower" and len(picked) == 500):
+	picked.clear()
+```
+
+picked의 길이가 200이 되고, 모든 엘리베이터의 passengers가 비워졌으면 picked를 비워버린다.  <br/>
+<br/>
+![](https://lh3.googleusercontent.com/CygRLg2zp_4pHKY9WDEnLvgCvYcdugowqqMJrbm-WR2BlyMzGkOi1kuQJd69CDGPb71xM9tcrNG0AWApixXPmz2N-pf1RbpxRkVd5irVshwqaWcWoZ5QLxXQu_wsOCT2jvzg0Y5L_vsHSvDdmq37NQhoUxnSMOHEQkdOhDli8A6dnGurjtshSgni6n_DF28llPsz84rJe_TUkiN5FMi1f2tnkNY8XSQFyi9hF65SF0P3lcn55lf5HaPDr1A6nLli8nkOGo6gpHKL_uQ4tTjhR2sX5X-KARz03Bo7ksx9J0D533FkZtXJ8JMnl3WHdCbFjDoLfqwryIfElGfokEnqe0OLuQf0-tn-UDx-JXr1gV5DQrlywWjfbZgZUOixIZiFs-DexUrS6nnb46x_0GuTRYtPKecJ_E3vTaA854caODZedEXPhOJFQ4QSQdbQog3meH6xV7Q1a-JOF4uUPoep8apq2m16XbHrnTB1No_e0pIcFtDxPH5aVYYO9tJsMuEozXWkocqy4pKOqCJnzzRvTly9ci3I-h1HOR1-1C_JWDAOSOGZJgZb31j9yiodUlXzBRvLmlpj3_yeb-HKNMle_-Z4fNNBpKoQPE5wFGPpt5nSGA1l8CU7zoBTZ71C55JsHAIE71-kAM4noSx_bXRxIzi7=w820-h453-no)  
+
+
+클리어
+<br/>
+<br/>
+
+##### 라이언 타워  
+
+![](https://lh3.googleusercontent.com/M94zEHIWdmk4sXwhlWfRd-P7c3LQqsxBxE9N-PwAm5nT37IdO5Xayi0YLEQlqxoaIZsWvDiw2Stt8vfAxxcNFWOkbBpIiSg9PC84dkuOVmz3qfFfDTnTmXWPEKy6cH99wp5jzQ50vMSDU6UfyY46YFq5SmolRU932KrcK5X7-VqVNJfmvmIQLv6zctv9g9sSAVLc06VSMEh_Jl9yFgMBhWvPhflXzqwdAq32c0WdUrCzvKai7qufyAOa5U-svIlXcUbGKO7xS-hipj5JOBHJihfLWhlXR6Em6ctvrkxfC_wAemkf51LzFwm1FB6I1zybXcsFCOegNHa9XUY8KDTiDaCcDo7O9Rpu8PNkOV4SmHuja0t6pGdH7h3_povsF-brurM5dl5gjbWvcj-wtG5BODyNFP5KsF0hkPyrCZW_T75d8ei52jOX6xpvazbnDpMQybYT3ClliPUb5p-ss95RHowbSXN2d5psedSf1Y-dcIPxUuK7Y0MyVVFSp4O_PtOUmIYZ2LgGz64XAdZfRWcANG1jxX3tiTGcTUbIM4jT-j8yYtUkZ9R-Anp29VuXldGNkmRb6dCWdLk45RbLMC9enkdTIJLb0-YWqXXlQqad9d3CJ05gYVv5dU9M0Oy2EgMktCC3Hf0c7EmR5BqnCJD0X82t=w820-h453-no)  
+
+클리어  <br/>
+사실 위의 몽키패치에 passengers가 다 비워졌는지 체크하는 항목은 없었는데 이럴시에 제이지 빌딩 문제는 통과했지만 라이언 타워 문제에서 막혀버렸다.  <br/>  passengers를 체크한는 코드는 그래서 추가한것.
+
+
 
