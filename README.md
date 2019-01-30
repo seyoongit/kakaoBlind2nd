@@ -165,7 +165,9 @@ if requestCount > 0 and requestCount % 40 == 0:
 무한루프에 빠졌는지 안끝나길래 picked가 200이 되면 (제이지 빌딩 문제의 call 수) 각 엘리베이터의 passengers 와 현재 남아있는 calls를 로깅해봤다.  <br>  
 이유는 알수없지만 서너개의 call이 처리가 안된채로 남아있는데, 이들은 이미 picked에 기록된 상태라 엘리베이터가 얘내들을 안태우고 건너뛰는듯 하다.  
 <br>
-이를 해결하기 위해 몽키패치를 추가했다.
+디버깅을 하려면 할수는 있겠지만 또 vscode의 디버깅 모드로 F5만 수백번 눌러가며 찾아야 될걸 생각하니 급 귀찮아져서 임시방편으로 몽키패치만 추가했다. 어짜피 실전이었다면 이렇게 큰 버그가 나온것에서 이미 탈락이다.  
+<br>
+
 ```python
 # action 함수 말미에 추가한 몽키패치
 isPassengersEmpty = all(len(el["passengers"])==0 for el in state["elevators"])
@@ -173,8 +175,10 @@ if isPassengersEmpty and (problem=="JayZ Building" and len(picked) == 200) or (p
 	picked.clear()
 ```
 
+<br>
 picked의 길이가 200, 그리고 모든 엘리베이터의 passengers가 비워졌다면 picked를 비워버린다.  <br>
 <br>
+
 ![](https://lh3.googleusercontent.com/CygRLg2zp_4pHKY9WDEnLvgCvYcdugowqqMJrbm-WR2BlyMzGkOi1kuQJd69CDGPb71xM9tcrNG0AWApixXPmz2N-pf1RbpxRkVd5irVshwqaWcWoZ5QLxXQu_wsOCT2jvzg0Y5L_vsHSvDdmq37NQhoUxnSMOHEQkdOhDli8A6dnGurjtshSgni6n_DF28llPsz84rJe_TUkiN5FMi1f2tnkNY8XSQFyi9hF65SF0P3lcn55lf5HaPDr1A6nLli8nkOGo6gpHKL_uQ4tTjhR2sX5X-KARz03Bo7ksx9J0D533FkZtXJ8JMnl3WHdCbFjDoLfqwryIfElGfokEnqe0OLuQf0-tn-UDx-JXr1gV5DQrlywWjfbZgZUOixIZiFs-DexUrS6nnb46x_0GuTRYtPKecJ_E3vTaA854caODZedEXPhOJFQ4QSQdbQog3meH6xV7Q1a-JOF4uUPoep8apq2m16XbHrnTB1No_e0pIcFtDxPH5aVYYO9tJsMuEozXWkocqy4pKOqCJnzzRvTly9ci3I-h1HOR1-1C_JWDAOSOGZJgZb31j9yiodUlXzBRvLmlpj3_yeb-HKNMle_-Z4fNNBpKoQPE5wFGPpt5nSGA1l8CU7zoBTZ71C55JsHAIE71-kAM4noSx_bXRxIzi7=w820-h453-no)  
 
 
@@ -188,8 +192,8 @@ picked의 길이가 200, 그리고 모든 엘리베이터의 passengers가 비�
 
 클리어  
 <br>
-사실 위의 몽키패치에 passengers가 다 비워졌는지 체크하는 항목은 없었는데 이럴시에 제이지 빌딩 문제는 통과했지만 라이언 타워 문제에서 막혀버렸다.   <br>  
-passengers를 체크한는 코드는 그래서 추가한것.  
+사실 위의 몽키패치에 passengers가 다 비워졌는지 체크하는 항목은 없었는데 이 경우 제이지 빌딩 문제는 통과하지만 라이언 타워 문제에서 막혀버린다.   <br>  
+passengers를 체크하는 코드는 그래서 추가한것.  
 <br>
 <br>
 
@@ -202,8 +206,8 @@ solve.py 는 첫번째 아이디어에 나왔던 '구간을 나눈다' 컨셉이
 이 글에서는 문제 풀이가 그냥 스무스하게 진행되는데 실제로는 많이 막히고, 디버깅하는데 몇시간씩 잡아먹고 하는 경우가 많았다.  <br>
 문제 푸는 내내 머릿속에 '이게 실제 테스트였다면 나는 또 탈락이네..' 라는 생각이 지배했다.  <br>
 <br>
-일종의 트라우마같은걸 극복해서 자신감을 얻어보자는 취지로 시도한건데 왠지 깔끔한 풀이와는 거리가 먼 결과물이 나오고 말았다.  <br>
-실제 테스트 당일날 이걸 해낸 사람들은 어떻게 한걸까? 카카오에 '신입' 으로 들어가려면 이정도는 다 기본으로 해야하는건가? 그때 내 옆자리는 문제 다풀고 5시 땡 치자마자 나가버렸는데 그 사람은 지금 카카오 입사했겠지.. 등등 여러가지 생각이 든다.  <br>
+일종의 트라우마같은걸 극복해서 자신감을 얻어보자는 취지로 시도한건데 왠지 깔끔한 풀이와는 거리가 먼 결과물이 나오고 말았다.  
+실제 테스트 당일날 이걸 해낸 사람들은 어떻게 한걸까? 카카오에 '신입' 으로 들어가려면 이정도는 다 기본으로 해야하는건가? 그때 내 옆자리는 문제 다풀고 5시 땡 치자마자 나가버렸는데 그 사람은 지금 카카오 입사했겠지.. 등등 여러가지 생각이 든다.  그래도 문제를 풀면서 멀티쓰레드 프로그래밍 비스무리한것도 해봤고, OS에서 프로세스와 쓰레드의 작동방식에 대해 공부할 기회도 되었기에 이 정도면 나쁘지 않았다고 본다.<br>
 
 
 
