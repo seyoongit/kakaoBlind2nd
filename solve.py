@@ -39,7 +39,12 @@ def action(commands):
     print(f"Picked : {len(picked)}  Timestamp : {state['timestamp']}")
     # calls 를 다 처리했는데도 안끝나길래 추가한 디버깅용 print
     if len(picked) == 200 or len(picked) == 500:
-        print(tuple([a["passengers"] for a in state["elevators"]]))
+        print("PASSENGERS : ", tuple([a["passengers"] for a in state["elevators"]]) )
+        print("CALLS : ", calls )
+    # 몽키패치
+    isPassengersEmpty = all(len(el["passengers"])==0 for el in state["elevators"])
+    if isPassengersEmpty and (problem=="JayZ Building" and len(picked) == 200) or (problem=="Lion Tower" and len(picked) == 500):
+        picked.clear()
 
 def makeCommand(elevator_id, command, ids=None):
     ret = {"elevator_id": elevator_id, "command": command }
@@ -90,7 +95,7 @@ class Elevator:
             left = self.capacity - len(self.el["passengers"]) + len(getOff_ids)
             if len(getIn_ids) > 0 and left > 0:
                 ret.append(["ENTER", getIn_ids[:left]])
-                picked += getIn_ids
+                picked += getIn_ids[:left]
 
             ret.append(["CLOSE", None])
 
@@ -107,73 +112,73 @@ class Elevator:
         return ret
 
 
-# # ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 0번문제 어피치맨션 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-# start(0,1)
-# elevators = []
-# elevators.append(Elevator(elevator_id=0, bottomFloor=1, topFloor=5, capacity=8))
-# actionQ = [[]]
-# while not state["is_end"]:
-#     if requestCount > 0 and requestCount % 40 == 0: # 1초에 40번 이상의 요청은 에러뜸
-#         time.sleep(1)
+# ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 0번문제 어피치맨션 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+problem = "Apeach Mansion"
+start(0, 1)
+elevators = []
+elevators.append(Elevator(elevator_id=0, bottomFloor=1, topFloor=5, capacity=8))
+actionQ = [[]]
+while not state["is_end"]:
+    if requestCount > 0 and requestCount % 40 == 0: # 1초에 40번 이상의 요청은 에러뜸
+        time.sleep(1)
 
-#     commands = []
-#     for el, q in zip(elevators, actionQ):
-#         if len(q) == 0:
-#             q += el.getNextActions()
-#         command, ids = q.pop(0)
-#         commands.append(makeCommand(el.elevator_id, command, ids))
+    commands = []
+    for el, q in zip(elevators, actionQ):
+        if len(q) == 0:
+            q += el.getNextActions()
+        command, ids = q.pop(0)
+        commands.append(makeCommand(el.elevator_id, command, ids))
 
-#     action(commands)
+    action(commands)
 
-# print("어피치맨션 완료")
+print("어피치맨션 완료")
 
-# # ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 1번문제 제이지빌딩 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-# start(1,4)
-# elevators = []
-# elevators.append(Elevator(elevator_id=0, bottomFloor=1, topFloor=25, capacity=8))
-# elevators.append(Elevator(elevator_id=1, bottomFloor=1, topFloor=25, capacity=8))
-# elevators.append(Elevator(elevator_id=2, bottomFloor=1, topFloor=25, capacity=8))
-# elevators.append(Elevator(elevator_id=3, bottomFloor=1, topFloor=25, capacity=8))
-# actionQ = [[], [["STOP", None] for a in range(6)], [["STOP", None] for a in range(12)], [["STOP", None] for a in range(18)]]
+# ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 1번문제 제이지빌딩 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+problem  = "JayZ Building"
+start(1,4)
+elevators = []
+elevators.append(Elevator(elevator_id=0, bottomFloor=1, topFloor=25, capacity=8))
+elevators.append(Elevator(elevator_id=1, bottomFloor=1, topFloor=25, capacity=8))
+elevators.append(Elevator(elevator_id=2, bottomFloor=1, topFloor=25, capacity=8))
+elevators.append(Elevator(elevator_id=3, bottomFloor=1, topFloor=25, capacity=8))
+actionQ = [[], [["STOP", None] for a in range(6)], [["STOP", None] for a in range(12)], [["STOP", None] for a in range(18)]]
 
-# while not state["is_end"]:
-#     if requestCount > 0 and requestCount % 40 == 0:
-#         time.sleep(1)
+while not state["is_end"]:
+    if requestCount > 0 and requestCount % 40 == 0:
+        time.sleep(1)
 
-#     commands = []
-#     for el, q in zip(elevators, actionQ):
-#         if len(q) == 0:
-#             q += el.getNextActions()
-#         command, ids = q.pop(0)
-#         commands.append(makeCommand(el.elevator_id, command, ids))
+    commands = []
+    for el, q in zip(elevators, actionQ):
+        if len(q) == 0:
+            q += el.getNextActions()
+        command, ids = q.pop(0)
+        commands.append(makeCommand(el.elevator_id, command, ids))
 
-#     action(commands)
+    action(commands)
 
-# print("제이지빌딩 완료")
+print("제이지빌딩 완료")
 
-# # ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 2번문제 라이언타워 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-# start(2,4)
-# elevators = []
-# elevators.append(Elevator(elevator_id=0, bottomFloor=1, topFloor=25, capacity=8))
-# elevators.append(Elevator(elevator_id=1, bottomFloor=1, topFloor=25, capacity=8))
-# elevators.append(Elevator(elevator_id=2, bottomFloor=1, topFloor=25, capacity=8))
-# elevators.append(Elevator(elevator_id=3, bottomFloor=1, topFloor=25, capacity=8))
-# actionQ = [[], [["UP", None] for a in range(6)], [["UP", None] for a in range(12)], [["UP", None] for a in range(18)]]
+# ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 2번문제 라이언타워 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+problem = "Lion Tower"
+start(2,4)
+elevators = []
+elevators.append(Elevator(elevator_id=0, bottomFloor=1, topFloor=25, capacity=8))
+elevators.append(Elevator(elevator_id=1, bottomFloor=1, topFloor=25, capacity=8))
+elevators.append(Elevator(elevator_id=2, bottomFloor=1, topFloor=25, capacity=8))
+elevators.append(Elevator(elevator_id=3, bottomFloor=1, topFloor=25, capacity=8))
+actionQ = [[], [["UP", None] for a in range(6)], [["UP", None] for a in range(12)], [["UP", None] for a in range(18)]]
 
-# while not state["is_end"]:
-#     if requestCount > 0 and requestCount % 40 == 0:
-#         time.sleep(1)
+while not state["is_end"]:
+    if requestCount > 0 and requestCount % 40 == 0:
+        time.sleep(1)
 
-#     commands = []
-#     for el, q in zip(elevators, actionQ):
-#         if len(q) == 0:
-#             q += el.getNextActions()
-#         command, ids = q.pop(0)
-#         commands.append(makeCommand(el.elevator_id, command, ids))
+    commands = []
+    for el, q in zip(elevators, actionQ):
+        if len(q) == 0:
+            q += el.getNextActions()
+        command, ids = q.pop(0)
+        commands.append(makeCommand(el.elevator_id, command, ids))
 
-#     action(commands)
+    action(commands)
 
-# print("라이언타워 완료")
-
-
-
+print("라이언타워 완료")
