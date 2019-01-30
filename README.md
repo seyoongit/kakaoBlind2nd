@@ -87,7 +87,7 @@ commands = [
 <br>
 각 엘리베이터마다 본인의 큐에 command를 넣어주고,  action 요청을 보낼때마다 이 큐에서 하니씩 빼다가 commands 를 만들어서 요청한다.  멀티쓰레딩을 공부할때 나오는 '생산자 공급자' 패턴과 모양이 같다.  
 <br>
-solve.py의 169~172줄은 이를 나타낸다.
+solve.py의 152~155줄은 이를 나타낸다.
 ```python
 if len(q) == 0:
     q += el.getNextActions()
@@ -98,6 +98,7 @@ commands.append(makeCommand(el.elevator_id, command, ids))
 <br>  
 
 ### Extra feature  
+<br>
 
 ##### 엘리베이터에 태운 승객의 id를 따로 저장  
 
@@ -115,20 +116,20 @@ commands.append(makeCommand(el.elevator_id, command, ids))
 ##### 엘리베이터 간격띄우기  
 
 처음부터 4대의 엘리베이터 1층부터 우르르 몰려다니면 안되기 때문에 각 엘리베이터의 큐에 STOP 커맨드를 넣어서 출발을 지연시킨다.  
-solve.py의 161번째 줄은 이를 나타낸다.  
+solve.py의 144번째 줄은 이를 나타낸다.  
 
 ```python
 actionQ = [[], [["UP", None] for a in range(6)], [["UP", None] for a in range(12)], [["UP", None] for a in range(18)]]
 ```  
 
-물론 먼저 출발한 엘리베이터가 승객을 마주칠경우 최소 4턴이상 (STOP, OPEN, ENTER or EXIT, CLOSE) 그자리에 멈춰있기 때문에 시간이 흐름에 따라 다시 우르르 몰려다니는 모양새가 될지 어떨지는 확실하지 않으나 어쨌든 안하는것보단 나을듯 하다.
+물론 먼저 출발한 엘리베이터가 승객을 마주칠경우 최소 4턴이상 (STOP, OPEN, ENTER or EXIT, CLOSE) 그자리에 멈춰있기 때문에 시간이 흐름에 따라 다시 우르르 몰려다니는 모양새가 될지 어떨지는 확실하지 않으나 어쨌든 안하는것보단 나을듯 하다.  
 <br>  
 
 ##### 요청은 1초에 40번만  
 
 API문서에 '1초에 40번 이상의 네트워크 요청은 응답을 안할수도 있다' 라는 제한이 있기 때문에 40번째 요청마다 1초 쉬어주는 장치를 했다.  
 <br>
-solve.py 의 36-37 라인과 140-141 라인은 이를 나타낸다.  
+solve.py 의 36-37 라인과 147-148 라인은 이를 나타낸다.  
 
 ```python
 # 36 ~ 37 line
@@ -159,8 +160,9 @@ if requestCount > 0 and requestCount % 40 == 0:
 
 ![](https://lh3.googleusercontent.com/J9L95vhkSA1IEvaJoES-RLseDoOciRdpI0LqBu4SQI3Q7UKSTSBaDNmy0_LGcMpoHtJDFtR3WnB0n6zLsDCyNiov-x6ReRQlQIppCl1_boM0_4cQ4uIm9H4Yq3VQoYoywsdNG4XTfBEfaeHx0uzB_6NpmDM8WymGY50Q6jwgzSb3C-b1r_tc1uAfTP0NucXV1ogoMc1ZI8KnME9sazmvuhWgK_82KhYiIm1elscUYQZSrfT_-Uax4rSlaEgV4xINUEh9B_htaly4jlwq9-2XqXqDUGFSEXpGqCVjPJyGKd7PiD6c1OTMtcp8h3EdLd4OsMjggf_M1m1AGsAv-VSuYFHVHjCKCtLtsUK2Gk-O0eqv5kcMRNSCTteKiDubJLulvKzpEaoFJuJRR2fKldhNVpQ-15gFVzYlA_yhYsH5uo9sya-KJyrvWAo4X7QuilWb40GEqjDu26Ej1lp9tT2l1L1tVwPNsIh1hlk554Gd9vGXQqNlRKS7rS-VX_N1I9dQK3lVGrCwRJy5qcrBC5ww5GsPNCpn0suqxJLoLE7CUEi5FLsIAjOiDo6_wi1CpnhrgGLjZj2Cqwj416D69yk6Ar46_cCbur81n8eHdD5Dn-HjtKIaX-A6HiaPYcbiSrMTmuDlXZ1Z51PAnPtFnx4GlKgf=w1189-h453-no)  
 
-제이지 빌딩에서 문제가 발생했다.  
-무한루프에 빠졌는지 안끝나길래 picked가 200이 되면 (제이지 빌딩 문제의 call 수) 각 엘리베이터의 passengers 와 현재 남아있는 calls를 로깅해봤다  
+<br>
+제이지 빌딩에서 문제가 발생했다.  <br>
+무한루프에 빠졌는지 안끝나길래 picked가 200이 되면 (제이지 빌딩 문제의 call 수) 각 엘리베이터의 passengers 와 현재 남아있는 calls를 로깅해봤다.  <br>  
 이유는 알수없지만 서너개의 call이 처리가 안된채로 남아있는데, 이들은 이미 picked에 기록된 상태라 엘리베이터가 얘내들을 안태우고 건너뛰는듯 하다.  
 <br>
 이를 해결하기 위해 몽키패치를 추가했다.
@@ -171,7 +173,7 @@ if isPassengersEmpty and (problem=="JayZ Building" and len(picked) == 200) or (p
 	picked.clear()
 ```
 
-picked의 길이가 200이 되고, 모든 엘리베이터의 passengers가 비워졌으면 picked를 비워버린다.  <br>
+picked의 길이가 200, 그리고 모든 엘리베이터의 passengers가 비워졌다면 picked를 비워버린다.  <br>
 <br>
 ![](https://lh3.googleusercontent.com/CygRLg2zp_4pHKY9WDEnLvgCvYcdugowqqMJrbm-WR2BlyMzGkOi1kuQJd69CDGPb71xM9tcrNG0AWApixXPmz2N-pf1RbpxRkVd5irVshwqaWcWoZ5QLxXQu_wsOCT2jvzg0Y5L_vsHSvDdmq37NQhoUxnSMOHEQkdOhDli8A6dnGurjtshSgni6n_DF28llPsz84rJe_TUkiN5FMi1f2tnkNY8XSQFyi9hF65SF0P3lcn55lf5HaPDr1A6nLli8nkOGo6gpHKL_uQ4tTjhR2sX5X-KARz03Bo7ksx9J0D533FkZtXJ8JMnl3WHdCbFjDoLfqwryIfElGfokEnqe0OLuQf0-tn-UDx-JXr1gV5DQrlywWjfbZgZUOixIZiFs-DexUrS6nnb46x_0GuTRYtPKecJ_E3vTaA854caODZedEXPhOJFQ4QSQdbQog3meH6xV7Q1a-JOF4uUPoep8apq2m16XbHrnTB1No_e0pIcFtDxPH5aVYYO9tJsMuEozXWkocqy4pKOqCJnzzRvTly9ci3I-h1HOR1-1C_JWDAOSOGZJgZb31j9yiodUlXzBRvLmlpj3_yeb-HKNMle_-Z4fNNBpKoQPE5wFGPpt5nSGA1l8CU7zoBTZ71C55JsHAIE71-kAM4noSx_bXRxIzi7=w820-h453-no)  
 
@@ -187,7 +189,23 @@ picked의 길이가 200이 되고, 모든 엘리베이터의 passengers가 비�
 클리어  
 <br>
 사실 위의 몽키패치에 passengers가 다 비워졌는지 체크하는 항목은 없었는데 이럴시에 제이지 빌딩 문제는 통과했지만 라이언 타워 문제에서 막혀버렸다.   <br>  
-passengers를 체크한는 코드는 그래서 추가한것.
+passengers를 체크한는 코드는 그래서 추가한것.  
+<br>
+<br>
+
+### 마치며  
+
+solve.py 는 첫번째 아이디어에 나왔던 '구간을 나눈다' 컨셉이 적용되어있지 않다.  <br>
+그냥 엘리베이터 4개가 1층부터 25층까지 다니면서 각자 개인플레이를 할 뿐이다.  <br>
+구간을 나누는 컨셉을 적용해서 리팩토링 할수도 있겠지만.. 지금으로선 귀찮기도 하고 일단은 문제를 풀어본 것에 의의를 두기에 생략한다.  <br>
+<br>
+이 글에서는 문제 풀이가 그냥 스무스하게 진행되는데 실제로는 많이 막히고, 디버깅하는데 몇시간씩 잡아먹고 하는 경우가 많았다.  <br>
+문제 푸는 내내 머릿속에 '이게 실제 테스트였다면 나는 또 탈락이네..' 라는 생각이 지배했다.  <br>
+<br>
+일종의 트라우마같은걸 극복해서 자신감을 얻어보자는 취지로 시도한건데 왠지 깔끔한 풀이와는 거리가 먼 결과물이 나오고 말았다.  <br>
+실제 테스트 당일날 이걸 해낸 사람들은 어떻게 한걸까? 카카오에 '신입' 으로 들어가려면 이정도는 다 기본으로 해야하는건가? 그때 내 옆자리는 문제 다풀고 5시 땡 치자마자 나가버렸는데 그 사람은 지금 카카오 입사했겠지.. 등등 여러가지 생각이 든다.  <br>
+
+
 
 
 
