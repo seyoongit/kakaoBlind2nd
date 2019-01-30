@@ -6,9 +6,10 @@ elevator.exe 는 [카카오 엘리베이터 문제 깃허브](https://github.com
 <br>
 ### 첫번째 아이디어
 
-기본적인 아이디어는 다음과 같다 
+기본적인 아이디어는 다음과 같다  <br>
 <br>
 > 각각의 엘리베이터는 자기에게 정해진 구간만 순회하며 내릴사람 있으면 내려주고 태울사람 있으면 태우기를 반복한다  
+<br>
 <br>
 지하철을 떠올리면 이해하기 쉽다.  
 <br>
@@ -35,7 +36,8 @@ elevator.exe 는 [카카오 엘리베이터 문제 깃허브](https://github.com
 
 ### 스레드는 필요 없다
 
-이를 바탕으로 첫번째 문제인 '어피치 맨션' 해결한뒤 두번째 문제 '제이지 빌딩' 을 풀때 문제가 드러났다. 
+이를 바탕으로 첫번째 문제인 '어피치 맨션' 은 해결했으나, 두번째 '제이지 빌딩' 을 풀때 문제점이 드러났다.  <br>
+<br>
 엘리베이터가 하나일때는 action API 의 commands 배열에 한개의 command 만 넣어서 호출 해도 됬었다.  
 <br>
 
@@ -43,7 +45,7 @@ elevator.exe 는 [카카오 엘리베이터 문제 깃허브](https://github.com
 [{ "elevator_id": 0, "command": "OPEN"}] # 이런식으로
 ```
 <br>
-엘리베이터가 두개 이상이 되면 이게 안된다  
+근데 엘리베이터가 두개 이상이 되면 이게 안된다.  
 <br>
 
 ```python
@@ -51,21 +53,24 @@ elevator.exe 는 [카카오 엘리베이터 문제 깃허브](https://github.com
 [{ "elevator_id": 0, "command": "UP"}, { "elevator_id": 1, "command": "ENTER"}, "ids": [1,4,12]] # start API에서 엘리베이터를 2개 이상 사용한다 선언했으면 command 도 그 수에 맞춰서 요청해야한다. 
 ```
 <br>
-엘리베이터를 2개 사용한다고 요청하고 토큰을 받아왔는데 위 코드의 첫줄과 같이 요청을 보내면 에러가 뜬다. 처음엔 왜 계속 에러가 뜨나 헤멨는데 API 문서에
+엘리베이터를 2개 사용한다고 요청하고 토큰을 받아왔는데 위 코드의 첫줄과 같이 요청을 보내면 에러가 뜬다. 처음엔 왜 계속 에러가 뜨나 헤멨는데 API 문서에  <br>
+<br>
 
 > 400 Bad Request : 해당 명령을 실행할 수 없음
 > 1. (생략)
 > 2. 엘리베이터 수와 Command 수가 일치하지 않을 때
-> 3. (생략)
+> 3. (생략)  
 
+<br>
 라는 문구가 있었다. 2번 항목에 의하면,  애초에 쓰레드를 나눠버리면 안되는 문제였다.  실제 테스트를 치뤘을때는 이 단계 까지 오지도 못했기 때문에 이런 요구사항을 놓친것이다.  
 <br>
 처음 풀어보는것도 아니고 두번째인데다 집이라는 편안한 환경에서 푸는데도 이런 실수를 하다니. 합격자들은 실제 테스트 현장에서 이 모든 디테일한 요구사항 파악과 예외처리를 해냈다는 것일까.  
 <br>
-코드의 큰 구조를 갈아엎어야 하는 작업이기 때문에 긴장한 상태로 치루는 실제 테스트 였다면 또다시 멘탈이 깨지고 조급해졌을거라 생각하니 마음이 착잡해졌다.  
+코드의 큰 구조를 갈아엎어야 하는 작업이기에 긴장한 상태로 치루는 실제 테스트 였다면 또다시 멘탈이 깨지고 조급해졌을거라 생각하니 마음이 착잡해졌다.  
 <br>
 <br>
 <br>
+
 ### 두번째 아이디어
 
 결국 한개의 메인쓰레드에서 해결을 해야한다. 그리고 요청을 보낼때는 commands에 4개의 command를 동시에 넣어서 보내야한다.  
@@ -100,7 +105,7 @@ commands.append(makeCommand(el.elevator_id, command, ids))
 ### Extra feature  
 <br>
 
-##### 엘리베이터에 태운 승객의 id를 따로 저장  
+###### 엘리베이터에 태운 승객의 id를 따로 저장  
 
 서로 다른 엘리베이터에서 같은 승객을 ENTER 하는 요청을 보내면 당연히 에러가 뜬다.  <br>
 이를 방지하기위해 전역변수 picked 를 유지한다. picked는 엘리베이터에 태운 승객의 id를 담는 리스트이다.  <br>  
@@ -113,9 +118,10 @@ commands.append(makeCommand(el.elevator_id, command, ids))
 ```  
 <br>
 
-##### 엘리베이터 간격띄우기  
+###### 엘리베이터 간격띄우기  
 
 처음부터 4대의 엘리베이터 1층부터 우르르 몰려다니면 안되기 때문에 각 엘리베이터의 큐에 STOP 커맨드를 넣어서 출발을 지연시킨다.  
+<br>
 solve.py의 144번째 줄은 이를 나타낸다.  
 
 ```python
@@ -125,7 +131,7 @@ actionQ = [[], [["UP", None] for a in range(6)], [["UP", None] for a in range(12
 물론 먼저 출발한 엘리베이터가 승객을 마주칠경우 최소 4턴이상 (STOP, OPEN, ENTER or EXIT, CLOSE) 그자리에 멈춰있기 때문에 시간이 흐름에 따라 다시 우르르 몰려다니는 모양새가 될지 어떨지는 확실하지 않으나 어쨌든 안하는것보단 나을듯 하다.  
 <br>  
 
-##### 요청은 1초에 40번만  
+###### 요청은 1초에 40번만  
 
 API문서에 '1초에 40번 이상의 네트워크 요청은 응답을 안할수도 있다' 라는 제한이 있기 때문에 40번째 요청마다 1초 쉬어주는 장치를 했다.  
 <br>
@@ -138,7 +144,7 @@ def action(commands): # action API 요청을 보내는 함수의 내부
 	global requestCount # requestCount 는 코드초반에 전역으로 선언해둠
 	requestCount += 2
 	
-# 140 ~ 141 line
+# 147 ~ 148 line
 if requestCount > 0 and requestCount % 40 == 0:
 	time.sleep(1)
 ```  
@@ -162,21 +168,23 @@ if requestCount > 0 and requestCount % 40 == 0:
 
 <br>
 제이지 빌딩에서 문제가 발생했다.  <br>
-무한루프에 빠졌는지 안끝나길래 picked가 200이 되면 (제이지 빌딩 문제의 call 수) 각 엘리베이터의 passengers 와 현재 남아있는 calls를 로깅해봤다.  <br>  
-이유는 알수없지만 서너개의 call이 처리가 안된채로 남아있는데, 이들은 이미 picked에 기록된 상태라 엘리베이터가 얘내들을 안태우고 건너뛰는듯 하다.  
-<br>
+
+무한루프에 빠졌는지 안끝나길래 picked가 200(제이지 빌딩 문제의 call 수)이 되면 각 엘리베이터의 passengers 와 현재 남아있는 calls를 로깅해봤다.  <br>
+
+이유는 알수없지만 서너개의 call이 처리가 안된채로 남아있는데, 이들은 이미 picked에 기록된 상태라 엘리베이터가 얘내들을 안태우고 건너뛰는듯 하다.   <br>
+
 디버깅을 하려면 할수는 있겠지만 또 vscode의 디버깅 모드로 F5만 수백번 눌러가며 찾아야 될걸 생각하니 급 귀찮아져서 임시방편으로 몽키패치만 추가했다. 어짜피 실전이었다면 이렇게 큰 버그가 나온것에서 이미 탈락이다.  
 <br>
 
 ```python
 # action 함수 말미에 추가한 몽키패치
+# picked의 길이가 200, 그리고 모든 엘리베이터의 passengers가 비워졌다면 picked를 비워버린다.
 isPassengersEmpty = all(len(el["passengers"])==0 for el in state["elevators"])
 if isPassengersEmpty and (problem=="JayZ Building" and len(picked) == 200) or (problem=="Lion Tower" and len(picked) == 500):
 	picked.clear()
 ```
 
 <br>
-picked의 길이가 200, 그리고 모든 엘리베이터의 passengers가 비워졌다면 picked를 비워버린다.  <br>
 <br>
 
 ![](https://lh3.googleusercontent.com/CygRLg2zp_4pHKY9WDEnLvgCvYcdugowqqMJrbm-WR2BlyMzGkOi1kuQJd69CDGPb71xM9tcrNG0AWApixXPmz2N-pf1RbpxRkVd5irVshwqaWcWoZ5QLxXQu_wsOCT2jvzg0Y5L_vsHSvDdmq37NQhoUxnSMOHEQkdOhDli8A6dnGurjtshSgni6n_DF28llPsz84rJe_TUkiN5FMi1f2tnkNY8XSQFyi9hF65SF0P3lcn55lf5HaPDr1A6nLli8nkOGo6gpHKL_uQ4tTjhR2sX5X-KARz03Bo7ksx9J0D533FkZtXJ8JMnl3WHdCbFjDoLfqwryIfElGfokEnqe0OLuQf0-tn-UDx-JXr1gV5DQrlywWjfbZgZUOixIZiFs-DexUrS6nnb46x_0GuTRYtPKecJ_E3vTaA854caODZedEXPhOJFQ4QSQdbQog3meH6xV7Q1a-JOF4uUPoep8apq2m16XbHrnTB1No_e0pIcFtDxPH5aVYYO9tJsMuEozXWkocqy4pKOqCJnzzRvTly9ci3I-h1HOR1-1C_JWDAOSOGZJgZb31j9yiodUlXzBRvLmlpj3_yeb-HKNMle_-Z4fNNBpKoQPE5wFGPpt5nSGA1l8CU7zoBTZ71C55JsHAIE71-kAM4noSx_bXRxIzi7=w820-h453-no)  
@@ -192,7 +200,7 @@ picked의 길이가 200, 그리고 모든 엘리베이터의 passengers가 비�
 
 클리어  
 <br>
-사실 위의 몽키패치에 passengers가 다 비워졌는지 체크하는 항목은 없었는데 이 경우 제이지 빌딩 문제는 통과하지만 라이언 타워 문제에서 막혀버린다.   <br>  
+사실 위의 몽키패치에 passengers가 다 비워졌는지 체크하는 항목은 원래 없었는데, 이 경우 제이지 빌딩 문제는 통과하지만 라이언 타워 문제에서 막혀버린다.   <br>  
 passengers를 체크하는 코드는 그래서 추가한것.  
 <br>
 <br>
