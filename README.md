@@ -97,10 +97,7 @@ commands.append(makeCommand(el.elevator_id, command, ids))
 <br>
 <br>  
 
-### Extra feature
-
-<br>
-<br>
+### Extra feature  
 
 ##### 엘리베이터에 태운 승객의 id를 따로 저장  
 
@@ -112,7 +109,8 @@ solve.py 의 98번 줄은 이를 나타낸다.
 ```python
 picked += getIn_ids[:left]
 commands.append(makeCommand(el.elevator_id, command, ids))
-``` 
+```  
+<br>
 
 ##### 엘리베이터 간격띄우기  
 
@@ -124,7 +122,7 @@ actionQ = [[], [["UP", None] for a in range(6)], [["UP", None] for a in range(12
 ```  
 
 물론 먼저 출발한 엘리베이터가 승객을 마주칠경우 최소 4턴이상 (STOP, OPEN, ENTER or EXIT, CLOSE) 그자리에 멈춰있기 때문에 시간이 흐름에 따라 다시 우르르 몰려다니는 모양새가 될지 어떨지는 확실하지 않으나 어쨌든 안하는것보단 나을듯 하다.
-<br> 
+<br>  
 
 ##### 요청은 1초에 40번만  
 
