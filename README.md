@@ -9,9 +9,11 @@ elevator.exe 는 [카카오 엘리베이터 문제 깃허브](https://github.com
 ### 첫번째 아이디어
 
 기본적인 아이디어는 다음과 같다 
+<br>
+<br>
 > 각각의 엘리베이터는 자기에게 정해진 구간만 순회하며 내릴사람 있으면 내려주고 태울사람 있으면 태우기를 반복한다  
-
-
+<br>
+<br>
 지하철을 떠올리면 이해하기 쉽다.  
 <br>
 지하철은 내가 가는 방향에 승객이 별로없고 다른쪽에 기다리는 승객이 많다고 해서 그쪽으로 방향을 틀거나 하지 않는다.  
@@ -47,10 +49,10 @@ elevator.exe 는 [카카오 엘리베이터 문제 깃허브](https://github.com
 ```
 <br/>
 엘리베이터가 두개 이상이 되면 이게 안된다  
-<br/>
+
 ```python
-[{ "elevator_id": 0, "command": "OPEN"}] # 이런식으로 commands 에 한개의 command만 포함해서 보내면 에러가 뜬다
-[{ "elevator_id": 0, "command": "UP"}, { "elevator_id": 1, "command": "ENTER"}, "ids": [1,4,12]] # start API에서 엘리베이터를 2개 이상 사용한다 선언했으면 command 도 그 수에 맞춰서 요청해야한다. 
+	[{ "elevator_id": 0, "command": "OPEN"}] # 이런식으로 commands 에 한개의 command만 포함해서 보내면 에러가 뜬다
+	[{ "elevator_id": 0, "command": "UP"}, { "elevator_id": 1, "command": "ENTER"}, "ids": [1,4,12]] # start API에서 엘리베이터를 2개 이상 사용한다 선언했으면 command 도 그 수에 맞춰서 요청해야한다. 
 ```
 <br/>
 엘리베이터를 2개 사용한다고 요청하고 토큰을 받아왔는데 위 코드의 첫줄과 같이 요청을 보내면 에러가 뜬다. 처음엔 왜 계속 에러가 뜨나 헤멨는데 API 문서에
@@ -83,10 +85,13 @@ commands = [
 ] # 이런식으로 보내야함
 ```  
 
-한번의 action 요청에 들어갈  command 들을 어떻게 고를지 고민한 내 아이디어는 아래와 같다.
-![](https://lh3.googleusercontent.com/ejXC3BYF20Zl2kRUFT3T2xddcNPFKGjQngQoHtm7TuW8o-dlaZcFtbxzGAi26t5UFPIVZA7H8KpRPoeYjB7aPC0c_b0CJq_e3_r2THvg7mrVdk1wjdOZr9f16nUn-2629_LbWfE2YOY4RKmYw7uI8PG-AKEkb3_YSkNG792IuOVb6VEhXdcUHHYWiIZt826GieFMQkU7pvWjQX2zrU1NsLPYt8gn8TraacfH1Rpe-DY6RLswvED-uR6-gi1UzPoFPL70jmKNH0qv58CpzlqAqj8tgjg27Q48u7Pb6Je3wh9EabPtbiY2Rt5-fHOQPx9RnSsEm6-38IT6ncTY-WFTRE6aVZzDNbMZTUCc4GciFKurEM9Vp1ChBXikX8WkpMvBHvjkCpz9omBLO2eA5hIo80FMpo-MYZVdZw9sFgE729qT9q-_rPSg01kmRGQw88yv_CoE1oCZJNwCkR29PnKicCq3kQBUhVU_LmvzxGFwDY00zEMQ1WA524I6Q7vt7psCZjHZrv7uPa4_9GJvuJc6WZvVEuT1kW7aAs0jq1HqzyrSx8LfmTGEIHI71fc3kBe-zUJhDu7zudxMFsKydsoxl5dJY93erHZrqtHUubsUjJ0fzu86Oi5iwRvqvqjFL0auQKpTuxMGLc910Wv0d0iRhtTw=w719-h574-no)
-
-각 엘리베이터마다 본인의 큐에 command를 넣어주고,  action 요청을 보낼때마다 이 큐에서 하니씩 빼다가 commands 를 만들어서 요청한다.  멀티쓰레딩을 공부할때 나오는 '생산자 공급자' 패턴과 모양이 같다.
+한번의 action 요청에 들어갈  command 들을 어떻게 고를지 고민한 내 아이디어는 아래와 같다.  
+<br>
+<br>
+![](https://lh3.googleusercontent.com/ejXC3BYF20Zl2kRUFT3T2xddcNPFKGjQngQoHtm7TuW8o-dlaZcFtbxzGAi26t5UFPIVZA7H8KpRPoeYjB7aPC0c_b0CJq_e3_r2THvg7mrVdk1wjdOZr9f16nUn-2629_LbWfE2YOY4RKmYw7uI8PG-AKEkb3_YSkNG792IuOVb6VEhXdcUHHYWiIZt826GieFMQkU7pvWjQX2zrU1NsLPYt8gn8TraacfH1Rpe-DY6RLswvED-uR6-gi1UzPoFPL70jmKNH0qv58CpzlqAqj8tgjg27Q48u7Pb6Je3wh9EabPtbiY2Rt5-fHOQPx9RnSsEm6-38IT6ncTY-WFTRE6aVZzDNbMZTUCc4GciFKurEM9Vp1ChBXikX8WkpMvBHvjkCpz9omBLO2eA5hIo80FMpo-MYZVdZw9sFgE729qT9q-_rPSg01kmRGQw88yv_CoE1oCZJNwCkR29PnKicCq3kQBUhVU_LmvzxGFwDY00zEMQ1WA524I6Q7vt7psCZjHZrv7uPa4_9GJvuJc6WZvVEuT1kW7aAs0jq1HqzyrSx8LfmTGEIHI71fc3kBe-zUJhDu7zudxMFsKydsoxl5dJY93erHZrqtHUubsUjJ0fzu86Oi5iwRvqvqjFL0auQKpTuxMGLc910Wv0d0iRhtTw=w719-h574-no)  
+<br>
+<br>
+각 엘리베이터마다 본인의 큐에 command를 넣어주고,  action 요청을 보낼때마다 이 큐에서 하니씩 빼다가 commands 를 만들어서 요청한다.  멀티쓰레딩을 공부할때 나오는 '생산자 공급자' 패턴과 모양이 같다.  
 <br/>
 solve.py의 169~172줄은 이를 나타낸다.
 ```python
@@ -100,11 +105,11 @@ solve.py의 169~172줄은 이를 나타낸다.
 <br/>
 <br/>
 <br/>
-### extra feature
+### extra feature  
+<br>
 1. 처음부터 4대의 엘리베이터 1층부터 우르르 몰려다니면 안되기 때문에 미리 알맞게 각 엘리베이터의 큐에 STOP 커맨드를 넣어둔다.  
 <br/>
 solve.py의 161번째 줄은 이를 나타낸다.  
-
 ```python
 	actionQ = [[], [["UP", None] for a in range(6)], [["UP", None] for a in range(12)], [["UP", None] for a in range(18)]]
 ```  
@@ -112,7 +117,6 @@ solve.py의 161번째 줄은 이를 나타낸다.
 2. API문서에 '1초에 40번 이상의 네트워크 요청은 응답을 안할수도 있다' 라고 나와있길래 40번째 요청마다 1초 쉬어주는 장치를 했다.
 <br/>
 solve.py 의 36~37 라인과 140~141 라인은 이를 나타낸다.  
-<br>
 ```python
 	# 36 ~ 37 line
 	def action(commands): # action API 요청을 보내는 함수의 내부
@@ -124,6 +128,9 @@ solve.py 의 36~37 라인과 140~141 라인은 이를 나타낸다.
         		time.sleep(1)
 ```  
 <br>
-
+<br>
+<br>
+<br>
+<br>
 
 ### 실행결과
