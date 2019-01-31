@@ -215,7 +215,8 @@ solve.py 는 첫번째 아이디어에 나왔던 '구간을 나눈다' 컨셉이
 <br>
 일종의 트라우마같은걸 극복해서 자신감을 얻어보자는 취지로 시도한건데 왠지 깔끔한 풀이와는 거리가 먼 결과물이 나오고 말았다.  실제 테스트 당일날 이걸 해낸 사람들은 어떻게 한걸까? 카카오에 '신입' 으로 들어가려면 이정도는 다 기본으로 해야하는건가? 그때 내 옆자리는 문제 다풀고 5시 땡 치자마자 나가버렸는데 그 사람은 지금 카카오 입사했겠지.. 등등 여러가지 생각이 든다.  그래도 문제를 풀면서 멀티쓰레드 프로그래밍 비스무리한것도 해봤고, 프로세스와 쓰레드에 대해 공부할 기회도 되었기에 이 정도면 나쁘지 않았다고 생각한다.  
 
-![울고있는꼬부기](https://lh3.googleusercontent.com/sn9pToW6flEntuu8JgAw02ciupvJD9g3pD9WUqf8hjM5n_EgUyX6sfsnggcwrKVi5xaxNwq3u6aYrLggOahky7tABa03AXAv6n2sKV1HCCjtTq8PIQ379btzgY02wFLEQkeBpXh21ulUHFFBYpWahaFpLGKaOwayKUq_1zmW6aG7PM8uK3YkoOMqgoAZBhmvzwjLW9JufuvdPyVcoP1IxlTZt5lUleZJw86t4f_90U1OBWFmVXo2L_1fsfekB69x5x9QnLC1cGfZiLh4lQh33jxQUfHl1KUCf3beJr84lML800JKJF9yFc1v3JVZ3BW4Vf2bvGWCqWSttvJdOR_-vy4MA8Bj_kXr-7U_WAl65LNHRunkScVV4n4D9xRi3Z0SeH8o8C9TejLckms4J9PgiLmbykxu8JeiWVjprq7KdxrjZc5KalFkx_grIDIZCXLFNhnjaZHCBLacFO0pHnwU353nwwFYHB0JeyLmYyRnUnZZ4QOMJrOaAHFC4gaxZPxkpGWlTv7ZgpMOoLaJ8J-LkLINkJ25raGoYFByYiE0NCZepHTg0hMqWK72BVdf0hHzH3lJh1OJp-KoAUSU-9PcPb7xPrijg21eJ3mKh8OcLBz_raLs6ohytwVUgDe1hbYF1EyoATWLMTNVKe2ZYX_EbsTw=w410-h209-no)
+![](https://user-images.githubusercontent.com/47002080/52044278-184ba700-2585-11e9-88c9-f24fc048d202.gif)
+
 
 <br>
 <br>
