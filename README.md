@@ -18,7 +18,7 @@ elevator.exe 는 [카카오 엘리베이터 문제 깃허브](https://github.com
 그저 자기에게 정해진 구간만 순회할뿐이다. 승객은 지하철을 환승해가며 목적지에 도착한다.  <br>
 <br>
 
-![first_idea](https://imgur.com/1nSxio8)
+![first_idea](https://user-images.githubusercontent.com/47002080/52043573-6bbcf580-2583-11e9-92b2-f095287822ba.png)
 
 이를 그림으로 표현했다.  
 구역을 나눈뒤에 각 엘리베이터는 자기 구역만 왔다갔다 하면서 승객을 실어 나른다.  
@@ -86,7 +86,7 @@ commands = [
 한번의 action 요청에 들어갈  command 들을 어떻게 고를지 고민한 내 아이디어는 아래와 같다.  
 <br>
 <br>
-![second_idea](https://imgur.com/iNs0tv0)  
+![second_idea](https://user-images.githubusercontent.com/47002080/52043593-77102100-2583-11e9-957c-0d368d657a97.png)  
 <br>
 <br>
 각 엘리베이터마다 본인의 큐에 command를 넣어주고,  action 요청을 보낼때마다 이 큐에서 하니씩 빼다가 commands 를 만들어서 요청한다.  멀티쓰레딩을 공부할때 나오는 '생산자 공급자' 패턴과 모양이 같다.  
@@ -156,7 +156,7 @@ if requestCount > 0 and requestCount % 40 == 0:
 
 ##### 어피치 맨션  
 
-![solve_apeach_mansion](https://lh3.googleusercontent.com/weVgdaeRq_iLHGPXYIvUnzeQPEE2SI-pSBZ5379zRoTGDxF8adoEB-JbdGORQf_ED2ecFB7yn3jRXgNGJSTo4XwNeSnyntVeNdFXtgY0F2Y2xG9nxP2bJ7jXTHnkeuiMHnnvzUvfGodRwxyByMsGglYHlcvdCwyY9Uo3XR-vlUnkIFFtRGL2N5ztWqE7MoUKGr8OIu7mmxPVt_dqlK2svWlksdB25HSKOt8kR2aJ5KeiUrtlWOYVOV-7NMs2eo9f59828v1xULNJVRXfD0Oonl-ftG9E40u8lxPWqTnHpUJ1HrTqTC42Ji8TgwOjImolG6FH2iGjvP4EMpzcyXofv6ujSrnu7nvGBzL6kJv5hJOK2cMF66gDgsXJgpVU-ZJ4_LHRLTGUYHfcjHq6GDWv8mA5t3Sqgy0ZFifphzr-UTF9LDTVz8zJOK-BXQLagBFt-bQ2kxHdBtmFbzD5frvzazxkJ4MY4R3z-VF4tJWJ2grbgRo2KxmIgSgSuS5WW0yNPAQQ_gW2SJ5c2LdHeVUIP-g8SX2Ks6lxp2_T4u1DrBSpxrDWMRLGj0Jm8rpdkkdphuQ7jp1sJbL3crf5Bv42NhQOKtzxnhM8Hmr2HBsB89pnvNTfuEXu3AOSSg5vg10MCNEbDN4IxSOkI3nWtdVmIULd=w834-h453-no)  
+![solve_apeach_mansion](https://user-images.githubusercontent.com/47002080/52043625-8b541e00-2583-11e9-82c7-561c37c67943.gif)  
 
 잘 작동한다  
 <br>
@@ -164,7 +164,7 @@ if requestCount > 0 and requestCount % 40 == 0:
 
 ##### 제이지 빌딩  
 
-![solve_jayz_building_fail](https://lh3.googleusercontent.com/J9L95vhkSA1IEvaJoES-RLseDoOciRdpI0LqBu4SQI3Q7UKSTSBaDNmy0_LGcMpoHtJDFtR3WnB0n6zLsDCyNiov-x6ReRQlQIppCl1_boM0_4cQ4uIm9H4Yq3VQoYoywsdNG4XTfBEfaeHx0uzB_6NpmDM8WymGY50Q6jwgzSb3C-b1r_tc1uAfTP0NucXV1ogoMc1ZI8KnME9sazmvuhWgK_82KhYiIm1elscUYQZSrfT_-Uax4rSlaEgV4xINUEh9B_htaly4jlwq9-2XqXqDUGFSEXpGqCVjPJyGKd7PiD6c1OTMtcp8h3EdLd4OsMjggf_M1m1AGsAv-VSuYFHVHjCKCtLtsUK2Gk-O0eqv5kcMRNSCTteKiDubJLulvKzpEaoFJuJRR2fKldhNVpQ-15gFVzYlA_yhYsH5uo9sya-KJyrvWAo4X7QuilWb40GEqjDu26Ej1lp9tT2l1L1tVwPNsIh1hlk554Gd9vGXQqNlRKS7rS-VX_N1I9dQK3lVGrCwRJy5qcrBC5ww5GsPNCpn0suqxJLoLE7CUEi5FLsIAjOiDo6_wi1CpnhrgGLjZj2Cqwj416D69yk6Ar46_cCbur81n8eHdD5Dn-HjtKIaX-A6HiaPYcbiSrMTmuDlXZ1Z51PAnPtFnx4GlKgf=w1189-h453-no)  
+![solve_jayz_building_fail](https://user-images.githubusercontent.com/47002080/52043634-9444ef80-2583-11e9-949f-1e94127e51f7.gif)  
 
 <br>
 제이지 빌딩에서 문제가 발생했다.  <br>
@@ -187,7 +187,7 @@ if isPassengersEmpty and (problem=="JayZ Building" and len(picked) == 200) or (p
 <br>
 <br>
 
-![solve_jayz_building_success](https://lh3.googleusercontent.com/CygRLg2zp_4pHKY9WDEnLvgCvYcdugowqqMJrbm-WR2BlyMzGkOi1kuQJd69CDGPb71xM9tcrNG0AWApixXPmz2N-pf1RbpxRkVd5irVshwqaWcWoZ5QLxXQu_wsOCT2jvzg0Y5L_vsHSvDdmq37NQhoUxnSMOHEQkdOhDli8A6dnGurjtshSgni6n_DF28llPsz84rJe_TUkiN5FMi1f2tnkNY8XSQFyi9hF65SF0P3lcn55lf5HaPDr1A6nLli8nkOGo6gpHKL_uQ4tTjhR2sX5X-KARz03Bo7ksx9J0D533FkZtXJ8JMnl3WHdCbFjDoLfqwryIfElGfokEnqe0OLuQf0-tn-UDx-JXr1gV5DQrlywWjfbZgZUOixIZiFs-DexUrS6nnb46x_0GuTRYtPKecJ_E3vTaA854caODZedEXPhOJFQ4QSQdbQog3meH6xV7Q1a-JOF4uUPoep8apq2m16XbHrnTB1No_e0pIcFtDxPH5aVYYO9tJsMuEozXWkocqy4pKOqCJnzzRvTly9ci3I-h1HOR1-1C_JWDAOSOGZJgZb31j9yiodUlXzBRvLmlpj3_yeb-HKNMle_-Z4fNNBpKoQPE5wFGPpt5nSGA1l8CU7zoBTZ71C55JsHAIE71-kAM4noSx_bXRxIzi7=w820-h453-no)  
+![solve_jayz_building_success](https://user-images.githubusercontent.com/47002080/52043654-a0c94800-2583-11e9-819f-46b8e458e462.gif)  
 
 
 클리어
@@ -196,7 +196,7 @@ if isPassengersEmpty and (problem=="JayZ Building" and len(picked) == 200) or (p
 
 ##### 라이언 타워  
 
-![](https://lh3.googleusercontent.com/M94zEHIWdmk4sXwhlWfRd-P7c3LQqsxBxE9N-PwAm5nT37IdO5Xayi0YLEQlqxoaIZsWvDiw2Stt8vfAxxcNFWOkbBpIiSg9PC84dkuOVmz3qfFfDTnTmXWPEKy6cH99wp5jzQ50vMSDU6UfyY46YFq5SmolRU932KrcK5X7-VqVNJfmvmIQLv6zctv9g9sSAVLc06VSMEh_Jl9yFgMBhWvPhflXzqwdAq32c0WdUrCzvKai7qufyAOa5U-svIlXcUbGKO7xS-hipj5JOBHJihfLWhlXR6Em6ctvrkxfC_wAemkf51LzFwm1FB6I1zybXcsFCOegNHa9XUY8KDTiDaCcDo7O9Rpu8PNkOV4SmHuja0t6pGdH7h3_povsF-brurM5dl5gjbWvcj-wtG5BODyNFP5KsF0hkPyrCZW_T75d8ei52jOX6xpvazbnDpMQybYT3ClliPUb5p-ss95RHowbSXN2d5psedSf1Y-dcIPxUuK7Y0MyVVFSp4O_PtOUmIYZ2LgGz64XAdZfRWcANG1jxX3tiTGcTUbIM4jT-j8yYtUkZ9R-Anp29VuXldGNkmRb6dCWdLk45RbLMC9enkdTIJLb0-YWqXXlQqad9d3CJ05gYVv5dU9M0Oy2EgMktCC3Hf0c7EmR5BqnCJD0X82t=w820-h453-no)  
+![](https://user-images.githubusercontent.com/47002080/52043676-a9ba1980-2583-11e9-89cc-272ff32f83c3.gif)  
 
 클리어  
 <br>
